@@ -7,12 +7,17 @@ const db = require('./config/connection');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const { authMiddleware } = require('./utils/auth');
+
+// The typeDefs and resolvers are imported. They have been imported separately because of issues encountered during initial tests.
+// Debugging revealed an issue while trying to import both files through the index.js entry point of the schemas directory.
 const typeDefs = require('./schemas/typeDefs');
 const resolvers = require('./schemas/resolvers');
 
+// The express app is initialized and the port it will listen on is defined.
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// A new instance of Apollo Server is defined.  This is called in the start server function below.
 const server = new ApolloServer({
   typeDefs,
   resolvers,
