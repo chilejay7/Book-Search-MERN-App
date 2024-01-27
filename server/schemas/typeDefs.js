@@ -11,6 +11,10 @@
 
 const typeDefs = `
 
+type Query {
+    me: User
+}
+
 type User {
     _id: ID
     username: String
@@ -31,10 +35,6 @@ type Book {
 type Auth {
     token: ID!
     user: User
-}
-
-type Query {
-    me: User
 }
 
 type Mutation {

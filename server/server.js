@@ -1,15 +1,17 @@
 const express = require('express');
 const path = require('path');
 const db = require('./config/connection');
-const routes = require('./routes');
+// const routes = require('./routes');
 
 // Apollo server is imported.
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+const { authMiddleware } = require('./utils/auth');
 const { typeDefs, resolvers } = require('./schemas');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -30,6 +32,10 @@ const startApolloServer = async () => {
 
   // Routes are used with the REST API.  Typedefs and resolvers will be used with GrpahQL in place of the routes.
   // app.use(routes);
+
+  app.use('/graphql', expressMiddleware(server, {
+    context: authMiddleware
+  }));
 
   db.once('open', () => {
     app.listen(PORT, () => {
