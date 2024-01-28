@@ -8,6 +8,10 @@ import {
   Row
 } from 'react-bootstrap';
 
+// useMutation hook and the mutation defined in the mutations.js file are imported.
+import { useMutation } from '@apollo/client';
+import { SAVE_BOOK } from '../utils/mutations';
+
 import Auth from '../utils/auth';
 import { saveBook, searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
@@ -64,6 +68,9 @@ const SearchBooks = () => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
 
+    // The use mutation hook is set for use in saving a book.
+    const [addBook, { error }] = useMutation(SAVE_BOOK);
+
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -71,8 +78,11 @@ const SearchBooks = () => {
       return false;
     }
 
+    // The mutation is added to save the book to the database.
     try {
-      const response = await saveBook(bookToSave, token);
+      const response = await addBook({
+        variables: { authors, description, title, bookId, image, link }
+      });
 
       if (!response.ok) {
         throw new Error('something went wrong!');
