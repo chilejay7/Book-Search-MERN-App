@@ -31,6 +31,17 @@ const startApolloServer = async () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
+  // This middleware statement has been defined to help debug requests from the client and see the content being sent.
+  app.use((req, res, next) => {
+    const { body } = req.body;
+    const { header } = req.headers;
+    console.log(`*************************************`);
+    console.log(`The request header is: ${header}`);
+    console.log(`The request body is: ${body}`);
+    console.log(`*************************************`);
+    next();
+  })
+
   // if we're in production, serve client/build as static assets
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/build')));
@@ -39,6 +50,7 @@ const startApolloServer = async () => {
   // Routes are used with the REST API.  Typedefs and resolvers will be used with GrpahQL in place of the routes.
   // app.use(routes);
 
+  // Any client-side requests that begin with '/graphql' will be handled by our Apollo Server.
   app.use('/graphql', expressMiddleware(server, {
     context: authMiddleware
   }));
