@@ -1,4 +1,4 @@
-// The jsonwwebtoken library is imported to handle JWT operations.
+// // The jsonwwebtoken library is imported to handle JWT operations.
 // GraphQLError is imported for error handling during authentication.
 const jwt = require('jsonwebtoken');
 const { GraphQLError } = require('graphql')
