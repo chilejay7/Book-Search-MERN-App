@@ -59,15 +59,14 @@ const resolvers = {
         saveBook: async (parent, { addBook }, context) => {
             console.log(addBook);
             if (context.user) {
-                const newBooks = await User.findOneAndUpdate(
+                console.log(context.user._id)
+                return User.findOneAndUpdate(
                     { _id: context.user._id },
                     { $push: { savedBooks: addBook } },
                     {new: true }
-                    );
-                return { newBooks };
+                );
             }
-
-           throw AuthenticationError;
+            throw AuthenticationError;
         },
     },
 };
