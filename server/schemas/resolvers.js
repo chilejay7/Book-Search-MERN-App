@@ -28,6 +28,9 @@ const resolvers = {
         login: async (parent, { email, password }) => {
             console.log(`The user's email is: ${email} and their password is: ${password}`)
             const user = await User.findOne({ email });
+            console.log(`*************************************`);
+            console.log(user)
+            console.log(`*************************************`);
 
             if(!user) {
                 throw AuthenticationError;
