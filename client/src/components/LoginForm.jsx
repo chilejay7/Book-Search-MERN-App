@@ -47,7 +47,7 @@ const LoginForm = () => {
       // const { token, user } = await data.json();
       Auth.login(data.login.token);
       console.log(user);
-      Auth.login(token);
+      // Auth.login(token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);

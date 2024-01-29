@@ -39,13 +39,15 @@ const SignupForm = () => {
         variables: { ...userFormData },
       });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      // This is the same as the login form.  A REST API is no longer in use, and the response will not be interpreted correctly by the client.
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
 
-      const { token, user } = await data.json();
+      // const { token, user } = await data.json();
+      Auth.login(data.addUser.token);
       console.log(user);
-      Auth.login(token);
+      // Auth.login(token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
