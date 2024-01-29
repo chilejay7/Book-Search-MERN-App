@@ -16,6 +16,10 @@ const resolvers = {
             throw AuthenticationError;
            
         },
+        
+        allUsers: async () => {
+            return User.find();
+        },
     },
 
     Mutation: {

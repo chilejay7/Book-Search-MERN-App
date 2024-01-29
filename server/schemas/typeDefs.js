@@ -13,6 +13,7 @@ const typeDefs = `
 
 type Query {
     me: User
+    allUsers: [User]
 }
 
 type User {
