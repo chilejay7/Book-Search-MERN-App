@@ -16,10 +16,15 @@ const resolvers = {
             throw AuthenticationError;
            
         },
+        
+        allUsers: async () => {
+            return User.find();
+        },
     },
 
     Mutation: {
         login: async (parent, { email, password }) => {
+            console.log(`The user's email is: ${email} and their password is: ${password}`)
             const user = User.findOne({ email });
 
             if(!user) {
