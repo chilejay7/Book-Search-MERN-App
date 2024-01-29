@@ -1,6 +1,6 @@
-const { AuthenticationError } = require('apollo-server-express');
-const { User, Book } = require('../models');
-const { signToken, Authenticator } = require('../utils/auth');
+// const { AuthenticationError } = require('apollo-server-express');
+const { User } = require('../models');
+const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
     // The query refrences our one query defined in typeDefs.js.  
@@ -23,9 +23,14 @@ const resolvers = {
     },
 
     Mutation: {
+        // The await keyword is critical for this request to process correctly.
+        // The function needs to await the results of the findOne query before continuing to process the rest of the instructions.
         login: async (parent, { email, password }) => {
             console.log(`The user's email is: ${email} and their password is: ${password}`)
-            const user = User.findOne({ email });
+            const user = await User.findOne({ email });
+            console.log(`*************************************`);
+            console.log(user)
+            console.log(`*************************************`);
 
             if(!user) {
                 throw AuthenticationError;

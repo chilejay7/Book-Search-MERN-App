@@ -38,12 +38,14 @@ const LoginForm = () => {
         variables: { ...userFormData }
       })
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      // This application no longer uses a REST API and the reponse will not trigger properly if left to evaluate as previously written.
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
 
       // const { token, user } = await response.json();
-      const { token, user } = await data.json();
+      // const { token, user } = await data.json();
+      Auth.login(data.login.token);
       console.log(user);
       Auth.login(token);
     } catch (err) {
