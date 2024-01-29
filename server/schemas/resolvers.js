@@ -51,8 +51,25 @@ const resolvers = {
             const user = await User.create({ username, email, password });
             const token = signToken(user);
             return { token, user };
-        }
-    }
+        },
+
+        // context: Represents the context object which typically contains information about the current user, authentication status, and other contextual data.
+        // The resolver checks if there is a user authenticated in the current context (context.user).
+        // If there is an authenticated user (context.user is truthy), the resolver attempts to find and delete the profile associated with the user.
+        saveBook: async (parent, { addBook }, context) => {
+            console.log(authors, description, title, bookId, image, link);
+            if (context.user) {
+                const newBooks = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { savedBooks: addBook } },
+                    {new: true }
+                    );
+                return { newBooks };
+            }
+
+           throw AuthenticationError;
+        },
+    },
 };
 
 module.exports = resolvers;
