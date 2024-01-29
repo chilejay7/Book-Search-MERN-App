@@ -36,7 +36,7 @@ type Book {
     link: String
 }
 
-type input InsertBook {
+input InsertBook {
     bookId: String
     authors: [String]
     description: String

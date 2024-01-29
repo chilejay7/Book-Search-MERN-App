@@ -25,6 +25,9 @@ const SearchBooks = () => {
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
+  // The use mutation hook is set for use in saving a book.
+  const [saveBook, { error }] = useMutation(SAVE_BOOK);
+
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
@@ -68,9 +71,6 @@ const SearchBooks = () => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
 
-    // The use mutation hook is set for use in saving a book.
-    const [addBook, { error }] = useMutation(SAVE_BOOK);
-
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -78,15 +78,19 @@ const SearchBooks = () => {
       return false;
     }
 
+    const { authors, description, title, image, link } = bookToSave;
+    // console.log(authors, description, title, bookId, image, link);
+
     // The mutation is added to save the book to the database.
     try {
-      const response = await addBook({
-        variables: { authors, description, title, bookId, image, link }
+      const response = await saveBook({
+        variables: { addBook: {...bookToSave} }
       });
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      // This cannot be used with GraphQL since the response will not be interpreted correctly.
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
