@@ -31,10 +31,10 @@ export const SAVE_BOOK = gql`
         username
         email
         savedBooks {
+            bookId
             authors
             description
             title
-            bookId
             image
             link
         }
