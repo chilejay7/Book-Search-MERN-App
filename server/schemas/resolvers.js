@@ -60,6 +60,7 @@ const resolvers = {
         // If there is an authenticated user (context.user is truthy), the resolver attempts to find and delete the profile associated with the user.
         saveBook: async (parent, { addBook }, context) => {
             console.log(addBook);
+            console.log(`The context is: ${context.user}`);
             if (context.user) {
                 console.log(context.user._id)
                 return User.findOneAndUpdate(
