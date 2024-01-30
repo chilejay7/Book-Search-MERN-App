@@ -29,7 +29,7 @@ const resolvers = {
             console.log(`The user's email is: ${email} and their password is: ${password}`)
             const user = await User.findOne({ email });
             console.log(`*************************************`);
-            console.log(user)
+            console.log(user);
             console.log(`*************************************`);
 
             if(!user) {
@@ -43,6 +43,8 @@ const resolvers = {
             }
 
             const token = signToken(user);
+            // Added for debugging
+            console.log(token);
 
             return { token, user };
         },
