@@ -73,13 +73,12 @@ const SearchBooks = () => {
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
+    // Added for troubleshooting authentication error on save.
+    console.log(token);
 
     if (!token) {
       return false;
     }
-
-    const { authors, description, title, image, link } = bookToSave;
-    // console.log(authors, description, title, bookId, image, link);
 
     // The mutation is added to save the book to the database.
     try {
