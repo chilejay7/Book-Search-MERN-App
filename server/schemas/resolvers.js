@@ -63,7 +63,7 @@ const resolvers = {
             console.log(`The context is: ${context.user}`);
             if (context.user) {
                 console.log(context.user._id)
-                return User.findOneAndUpdate(
+                return User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $push: { savedBooks: addBook } },
                     {new: true }
