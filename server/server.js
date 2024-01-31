@@ -33,6 +33,8 @@ const startApolloServer = async () => {
 
   // if we're in production, serve client/build as static assets
   if (process.env.NODE_ENV === 'production') {
+    // Heroku's build logs indicate resources are being served from dist, not build.
+    // The directory was changed to reflect this and resolve a cannot GET / error when starting the Heroku application
     app.use(express.static(path.join(__dirname, '../client/dist')));
   }
 

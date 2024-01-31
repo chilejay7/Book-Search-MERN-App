@@ -9,6 +9,8 @@ import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 
+import { useQuery } from '@apollo/client';
+
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated] = useState(false);
@@ -24,6 +26,7 @@ const LoginForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    console.log(`Form data: ${userFormData}`)
 
     // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
@@ -38,7 +41,7 @@ const LoginForm = () => {
         variables: { ...userFormData }
       })
 
-      console.log(data);
+      console.log(`Login data: ${data}`);
 
       // This application no longer uses a REST API and the reponse will not trigger properly if left to evaluate as previously written.
       // if (!response.ok) {
@@ -46,7 +49,7 @@ const LoginForm = () => {
       // }
 
       Auth.login(data.login.token);
-      console.log(user);
+
       // Auth.login(token);
     } catch (err) {
       console.error(err);
