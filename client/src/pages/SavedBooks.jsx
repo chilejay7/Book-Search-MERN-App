@@ -24,7 +24,7 @@ const SavedBooks = () => {
 
   const userData = data?.me || {};
 
-  console.log(userData);
+  console.dir(userData);
 
   // use this to determine if `useEffect()` hook needs to run again
   // const userDataLength = Object.keys(userData).length;

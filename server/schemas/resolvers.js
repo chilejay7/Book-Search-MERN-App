@@ -10,11 +10,13 @@ const resolvers = {
     // The context object contains information about the authenticated user
     Query: {
         me: async (parent, args, context) => {
+            console.dir(context.user);
+
             if (context.user) {
-                return User.findOne({ _id: context.user._id}).populate('savedBooks');
+                const userData = await User.findOne({ _id: context.user._id}).populate('savedBooks');
+                return userData;
             }
             throw AuthenticationError;
-           
         },
         
         allUsers: async () => {
