@@ -33,7 +33,9 @@ const startApolloServer = async () => {
 
   // if we're in production, serve client/build as static assets
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/build')));
+    // Heroku's build logs indicate resources are being served from dist, not build.
+    // The directory was changed to reflect this and resolve a cannot GET / error when starting the Heroku application
+    app.use(express.static(path.join(__dirname, '../client/dist')));
   }
 
   // Routes are used with the REST API.  Typedefs and resolvers will be used with GrpahQL in place of the routes.
