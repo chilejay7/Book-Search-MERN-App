@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import {
   Container,
   Col,
@@ -62,7 +63,7 @@ const SearchBooks = () => {
       setSearchedBooks(bookData);
       setSearchInput('');
     } catch (err) {
-      console.error(err);
+      console.error(err.message);
     }
   };
 
@@ -74,7 +75,7 @@ const SearchBooks = () => {
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
     // Added for troubleshooting authentication error on save.
-    console.log(token);
+    console.log(`The login token is: ${token}`);
 
     if (!token) {
       return false;
@@ -83,13 +84,9 @@ const SearchBooks = () => {
     // The mutation is added to save the book to the database.
     try {
       const response = await saveBook({
-        variables: { addBook: {...bookToSave} }
+        variables: { addBook: {...bookToSave} },
+        token
       });
-
-      // This cannot be used with GraphQL since the response will not be interpreted correctly.
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);

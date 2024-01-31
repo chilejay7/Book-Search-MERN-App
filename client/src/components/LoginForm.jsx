@@ -15,7 +15,7 @@ const LoginForm = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   // The login mutation is added with the hook.
-  const [login, { error, data }] = useMutation(LOGIN_USER);
+  const [loginUser, { error, data }] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -34,7 +34,7 @@ const LoginForm = () => {
 
     try {
       // const response = await loginUser(userFormData);
-      const { data } = await login({
+      const { data } = await loginUser({
         variables: { ...userFormData }
       })
 
