@@ -1,6 +1,9 @@
 import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries'
 
+import { useMutation } from '@apollo/client';
+import { REMOVE_BOOK } from '../utils/mutations';
+
 import { useState, useEffect } from 'react';
 import {
   Container,
@@ -47,6 +50,11 @@ const SavedBooks = () => {
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
+
+    // Hooks can only be called inside the body of a function.
+    // If declared outside of a function it will throw an error.
+    const [removeBook, { err }] = useMutation(REMOVE_BOOK);
+
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
@@ -54,11 +62,15 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await deleteBook(bookId, token);
+      // const response = await deleteBook(bookId, token);
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      const response = await removeBook({
+        variables: {bookId, token }
+      })
+
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
 
       const updatedUser = await response.json();
       setUserData(updatedUser);

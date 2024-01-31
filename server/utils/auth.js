@@ -13,6 +13,8 @@ module.exports = {
       code: 'UNAUTHENTICATED',
     },
   }),
+
+  // This should define the user context and is set as middleware in the server.js file.
   authMiddleware: function async ({ req }) {
     // allows token to be sent via req.body, req.query, or headers
     let token = req.body.token || req.query.token || req.headers.authorization;

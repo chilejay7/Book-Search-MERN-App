@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import {
   Container,
   Col,
@@ -83,7 +84,8 @@ const SearchBooks = () => {
     // The mutation is added to save the book to the database.
     try {
       const response = await saveBook({
-        variables: { addBook: {...bookToSave} }
+        variables: { addBook: {...bookToSave} },
+        token
       });
 
       // if book successfully saves to user's account, save book id to state
