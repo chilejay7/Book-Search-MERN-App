@@ -24,33 +24,10 @@ const SavedBooks = () => {
 
   const userData = data?.me || {};
 
+  console.log(userData);
+
   // use this to determine if `useEffect()` hook needs to run again
   // const userDataLength = Object.keys(userData).length;
-
-  // useEffect(() => {
-  //   const getUserData = async () => {
-  //     try {
-  //       const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-  //       if (!token) {
-  //         return false;
-  //       }
-
-  //       const response = await getMe(token);
-
-  //       if (!response.ok) {
-  //         throw new Error('something went wrong!');
-  //       }
-
-  //       const user = await response.json();
-  //       setUserData(user);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-
-  //   getUserData();
-  // }, [userDataLength]);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -76,8 +53,8 @@ const SavedBooks = () => {
       //   throw new Error('something went wrong!');
       // }
 
-      const updatedUser = await response.json();
-      setUserData(updatedUser);
+      // const updatedUser = await response.json();
+      // setUserData(updatedUser);
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
@@ -86,10 +63,12 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  // This was changed to use the built-in component from the useQuery Apollo Client.
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 
+// The statements below referencing userData.savedBooks.length need to be made into conditionals using the the ? to correctly render the page even if there aren't any saved books. 
   return (
     <>
       <div fluid className="text-light bg-dark p-5">
@@ -99,11 +78,13 @@ const SavedBooks = () => {
       </div>
       <Container>
         <h2 className='pt-5'>
+
           {userData.savedBooks?.length
             ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
             : 'You have no saved books!'}
         </h2>
         <Row>
+
           {userData.savedBooks?.map((book) => {
             return (
               <Col md="4">

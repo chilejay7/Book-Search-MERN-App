@@ -32,14 +32,14 @@ const startApolloServer = async () => {
   app.use(express.json());
 
   // This middleware statement has been defined to help debug requests from the client and see the content being sent.
-  app.use((req, res, next) => {
-    const { header } = req.headers;
+  // app.use((req, res, next) => {
+  //   const { header } = req.headers;
 
-    console.log(`*************************************`);
-    console.log(`The request header is: ${header}`);
-    console.log(`*************************************`);
-    next();
-  })
+  //   console.log(`*************************************`);
+  //   console.log(`The request header is: ${header}`);
+  //   console.log(`*************************************`);
+  //   next();
+  // })
 
   // if we're in production, serve client/build as static assets
   if (process.env.NODE_ENV === 'production') {
