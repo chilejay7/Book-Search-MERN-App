@@ -21,6 +21,11 @@ const SavedBooks = () => {
   // const [userData, setUserData] = useState({});
 
   const { loading, data } = useQuery(GET_ME);
+  
+  // Hooks can only be called inside the body of a function.
+    // If declared outside of a function it will throw an error.
+    const [removeBook, { err }] = useMutation(REMOVE_BOOK);
+
 
   const userData = data?.me || {};
 
@@ -32,10 +37,6 @@ const SavedBooks = () => {
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
 
-    // Hooks can only be called inside the body of a function.
-    // If declared outside of a function it will throw an error.
-    const [removeBook, { err }] = useMutation(REMOVE_BOOK);
-
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
@@ -45,8 +46,9 @@ const SavedBooks = () => {
     try {
       // const response = await deleteBook(bookId, token);
 
-      const response = await removeBook({
-        variables: {bookId, token }
+     await removeBook({
+        variables: { bookId },
+        refetchQueries: [{ query: GET_ME }],
       })
 
       // if (!response.ok) {
@@ -71,7 +73,7 @@ const SavedBooks = () => {
 // The statements below referencing userData.savedBooks.length need to be made into conditionals using the the ? to correctly render the page even if there aren't any saved books. 
   return (
     <>
-      <div fluid className="text-light bg-dark p-5">
+      <div className="text-light bg-dark p-5">
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>
@@ -87,8 +89,8 @@ const SavedBooks = () => {
 
           {userData.savedBooks?.map((book) => {
             return (
-              <Col md="4">
-                <Card key={book.bookId} border='dark'>
+              <Col key={book.bookId} md="4">
+                <Card border='dark'>
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
