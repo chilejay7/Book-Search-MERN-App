@@ -17,6 +17,7 @@ const typeDefs = `
 type Query {
     me: User
     allUsers: [User]
+    singleUser(userId: ID!): User
 }
 
 type User {

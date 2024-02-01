@@ -24,6 +24,11 @@ const resolvers = {
         allUsers: async () => {
             return User.find();
         },
+
+        singleUser: async (parent, { userId }) => {
+            const user = await User.findById({ _id: userId });
+            return user;
+        }
     },
 
     Mutation: {
