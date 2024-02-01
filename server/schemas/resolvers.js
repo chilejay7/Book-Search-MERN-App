@@ -85,7 +85,24 @@ const resolvers = {
             }
             throw AuthenticationError;
         },
+
+        removeBook: async (parent, { bookId }, context) => {
+            console.log(bookId);
+            if (context.user) {
+                // Update the user's savedBooks array to remove the specified book
+                const updatedList = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { savedBooks: { bookId: bookId } } },
+                    { new: true }
+                );
+                return updatedList;
+            }
+            throw Authentication 
+        }
     },
+
+
+
 };
 
 module.exports = resolvers;
