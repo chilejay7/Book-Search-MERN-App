@@ -13,7 +13,9 @@ const resolvers = {
             console.dir(context.user);
 
             if (context.user) {
-                const userData = await User.findOne({ _id: context.user._id}).populate('savedBooks');
+                const userData = await User.findOne({ _id: context.user._id}).select(
+                    "-__v -password"
+                  );
                 return userData;
             }
             throw AuthenticationError;
@@ -22,13 +24,18 @@ const resolvers = {
         allUsers: async () => {
             return User.find();
         },
+
+        singleUser: async (parent, { userId }) => {
+            const user = await User.findById({ _id: userId });
+            return user;
+        }
     },
 
     Mutation: {
         // The await keyword is critical for this request to process correctly.
         // The function needs to await the results of the findOne query before continuing to process the rest of the instructions.
         login: async (parent, { email, password }) => {
-            console.log(`The user's email is: ${email} and their password is: ${password}`)
+            console.log(`The user's email is: ${email}`)
             const user = await User.findOne({ email });
             console.log(`*************************************`);
             console.log(user);
@@ -52,9 +59,13 @@ const resolvers = {
         },
 
         addUser: async (parent, { username, email, password }) => {
+            try{
             const user = await User.create({ username, email, password });
             const token = signToken(user);
             return { token, user };
+            } catch (error) {
+                return { error: error.message };
+              }
         },
 
         // context: Represents the context object which typically contains information about the current user, authentication status, and other contextual data.
@@ -64,12 +75,13 @@ const resolvers = {
             console.log(addBook);
             console.log(`The context is: ${context.user}`);
             if (context.user) {
-                console.log(context.user._id)
-                return User.findByIdAndUpdate(
+                console.log(`The user's id is: ${context.user._id}`)
+                const updateBooks = await User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $push: { savedBooks: addBook } },
                     {new: true }
                 );
+                return updateBooks;
             }
             throw AuthenticationError;
         },

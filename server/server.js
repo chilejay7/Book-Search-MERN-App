@@ -43,7 +43,7 @@ const startApolloServer = async () => {
 
   // Any client-side requests that begin with '/graphql' will be handled by our Apollo Server.
   app.use('/graphql', expressMiddleware(server, {
-    context: authMiddleware
+    context: authMiddleware,
   }));
 
   db.once('open', () => {

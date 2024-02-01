@@ -15,9 +15,12 @@ module.exports = {
   }),
 
   // This should define the user context and is set as middleware in the server.js file.
-  authMiddleware: function async ({ req }) {
+  authMiddleware: function ({ req }) {
     // allows token to be sent via req.body, req.query, or headers
     let token = req.body.token || req.query.token || req.headers.authorization;
+
+    console.log(`Auth middleware running...`)
+    console.log(req.body.token || req.query.token || req.headers.authorization);
 
     // Split the token string into an array and return actual token
     if (req.headers.authorization) {
@@ -43,8 +46,9 @@ module.exports = {
   // The signToken function accepts email, username, and _id as parameters.
   // These parameters are then used to create a JWT payload containing the provided user information.
   // The jwt.sign method is then used to sign the payload with the secret key and set the expiration time defined above.
-  signToken: function ({ email, username, _id }) {
-    const payload = { email, username, _id };
+  signToken: function ({ username, email, _id }) {
+    const payload = { username, email, _id };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };
+
