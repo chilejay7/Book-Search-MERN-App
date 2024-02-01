@@ -56,9 +56,9 @@ To run the Google Book Search MERN Application locally, follow these steps:
 4. Access the application at http://localhost:3000 in your web browser.
 
 ## Usage
-Search Books: Enter keywords, titles, authors, or other relevant criteria into the search bar to find books.
-Save Books: Click on the "Save" button to add a book to your saved list.
-Delete Books: Click on the "Delete" button to remove a book from your saved list.
+**Search Books:** Enter keywords, titles, authors, or other relevant criteria into the search bar to find books.
+**Save Books:** Click on the "Save" button to add a book to your saved list.
+**Delete Books:** Click on the "Delete" button to remove a book from your saved list.
 
 ## License
 [License: MIT](https://opensource.org/licenses/MIT)
